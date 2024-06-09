@@ -18,9 +18,7 @@ from icecream import ic
 class Recognizer():
     def __init__(self, vosk_model : str):
         self.vosk_model = vosk.Model(vosk_model)
-        #raya_recognizer = vosk.KaldiRecognizer(vosk_model, 16000) # Распазнаватель входной команды "Райя"
         self.main_recognizer = vosk.KaldiRecognizer(self.vosk_model, 16000) # Основной распознаватель речи
-        #self.speaker = pyttsx3.init() #Класс говорителя
 
     def start_stream(self):
         p = pyaudio.PyAudio()
