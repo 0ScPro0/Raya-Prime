@@ -12,7 +12,11 @@ from icecream import ic
 
 import threading
 
-ChatGPT = ChatGPT_requests.ChatGPT()
+ChatGPT = ChatGPT_requests.ChatGPT(PERSONAL_ACCESS_TOKEN = "pat_bype5W9TbbG4umD60PcxLSuW9mAVaApZK1DIIqp0kVymWLLBJ7dImaz5rTTVRTrF",
+                                   BOT_ID = "7377301694381801478",
+                                   USER_ID = "7355571474067062789",
+                                   API_URL = "https://api.coze.com/open_api/v2/chat")
+
 
 Recognizer = recognizer.Recognizer("voskModels\\vosk-model-small-ru-0.4")
 Recognizer.start_stream()
@@ -33,8 +37,9 @@ def main_recognize():
                 ic(command)
                 _commands.do_command(command)
             else:
-                ic(f"Error: unknown command for {text}")
-                _commands.unknown_command()
+                answer = ChatGPT.send_request_to_ChatGPT(text)
+                ic(f"GPT answer: {answer}")
+                Recognizer.speaker_say(str(answer))
         else:
             _commands.break_request()
             break

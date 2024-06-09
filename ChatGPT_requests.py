@@ -3,13 +3,16 @@ import json
 from icecream import ic
 
 class ChatGPT:
-    def __init__(self) -> None:
-        self.PERSONAL_ACCESS_TOKEN = "pat_14y3pTGIb9hBdFpEeFn7ezgtH8jM8eWcuANdWDCsYXOG85MGdLF0cEgFHge21RO0"
-        self.BOT_ID = "7355571501997293573"
-        self.USER_ID = "7355571474067062789"
-        self.API_URL = "https://api.coze.com/open_api/v2/chat"
+    def __init__(self, PERSONAL_ACCESS_TOKEN : str, BOT_ID : str, USER_ID : str, API_URL : str) -> None:
+        self.PERSONAL_ACCESS_TOKEN = PERSONAL_ACCESS_TOKEN
+        self.BOT_ID = BOT_ID
+        self.USER_ID = USER_ID
+        self.API_URL = API_URL
 
     def send_request_to_ChatGPT(self, query):
+
+        query = f"Тебе нужно ответить на вопрос кратко и четко, без лишних слов, приветсвий и тд. Просто вопрос - ответ. Вопрос: {query}"
+
         headers = {
             "Authorization": f"Bearer {self.PERSONAL_ACCESS_TOKEN}",
             "Content-Type": "application/json",
