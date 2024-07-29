@@ -11,6 +11,7 @@ import picovoice
 import pyttsx3
 from playsound import playsound
 from gtts import gTTS
+from pydub import AudioSegment  
 
 from icecream import ic
 
@@ -34,15 +35,29 @@ class Recognizer():
                 if answer["text"]:
                     yield answer["text"]
 
+    def get_robo_effect(self, file):
+        # Загружаем аудиофайл
+        original_audio = AudioSegment.from_file(file)
+
+        offset = 20  # смещение в миллисекундах (0.01 секунды)
+        num_copies = 10  # количество копий
+        combined_duration = len(original_audio) + 1000
+
+        combined = AudioSegment.silent(duration = combined_duration)  # создаем пустую дорожку
+
+        for i in range(num_copies):
+            copy = original_audio - (i * 3)  # затухание на 3дб на каждую копию
+            combined = combined.overlay(copy, position = i * offset)
+
+        # Сохраняем результат
+        combined.export("output_with_robo.mp3", format = "mp3")
+
     def speaker_say(self, text : str):
         tts = gTTS(text = text, lang = "ru")
         tts.save("output.mp3")
 
-        playsound("output.mp3")
+        self.get_robo_effect("output.mp3")
+
+        playsound("output_with_robo.mp3")
+        os.remove("output_with_robo.mp3")
         os.remove("output.mp3")
-
-"""_RayaPrime = Recognizer("voskModels\\vosk-model-small-ru-0.4")
-_RayaPrime.start_stream()
-
-for text in _RayaPrime.recognize():
-    ic(text)"""
