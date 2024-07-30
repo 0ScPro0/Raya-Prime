@@ -39,25 +39,25 @@ class Recognizer():
         # Загружаем аудиофайл
         original_audio = AudioSegment.from_file(file)
 
-        offset = 20  # смещение в миллисекундах (0.01 секунды)
+        offset = 20  # смещение в миллисекундах (0.02 секунды)
         num_copies = 10  # количество копий
         combined_duration = len(original_audio) + 1000
 
         combined = AudioSegment.silent(duration = combined_duration)  # создаем пустую дорожку
 
         for i in range(num_copies):
-            copy = original_audio - (i * 3)  # затухание на 3дб на каждую копию
+            copy = original_audio - (i * 4)  # затухание на 3дб на каждую копию
             combined = combined.overlay(copy, position = i * offset)
 
         # Сохраняем результат
-        combined.export("output_with_robo.mp3", format = "mp3")
+        combined.export("sounds\\output_with_robo.mp3", format = "mp3")
 
     def speaker_say(self, text : str):
         tts = gTTS(text = text, lang = "ru")
-        tts.save("output.mp3")
+        tts.save("sounds\\output.mp3")
 
-        self.get_robo_effect("output.mp3")
+        self.get_robo_effect("sounds\\output.mp3")
 
-        playsound("output_with_robo.mp3")
-        os.remove("output_with_robo.mp3")
-        os.remove("output.mp3")
+        playsound("sounds\\output_with_robo.mp3")
+        os.remove("sounds\\output_with_robo.mp3")
+        os.remove("sounds\\output.mp3")

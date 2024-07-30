@@ -9,9 +9,9 @@ class ChatGPT:
         self.USER_ID = USER_ID
         self.API_URL = API_URL
 
-    def send_request_to_ChatGPT(self, query):
+    def send_request(self, query):
 
-        query = f"Тебе нужно ответить на вопрос кратко и четко, без лишних слов, приветсвий и тд. Просто вопрос - ответ. Вопрос: {query}"
+        query = f"Тебе нужно ответить на вопрос кратко и четко, без лишних слов, приветсвий и тд, а еще ты женщина. Просто вопрос - ответ. Вопрос: {query}"
 
         headers = {
             "Authorization": f"Bearer {self.PERSONAL_ACCESS_TOKEN}",

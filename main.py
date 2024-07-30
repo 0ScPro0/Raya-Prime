@@ -37,7 +37,7 @@ def main_recognize():
                 ic(command)
                 _commands.do_command(command)
             else:
-                answer = ChatGPT.send_request_to_ChatGPT(text)
+                answer = ChatGPT.send_request(text)
                 ic(f"GPT answer: {answer}")
                 Recognizer.speaker_say(str(answer))
         else:
