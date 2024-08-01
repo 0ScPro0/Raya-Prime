@@ -35,21 +35,23 @@ class Recognizer():
                 if answer["text"]:
                     yield answer["text"]
 
+class Speaker:
+    def __init__(self):
+        pass
+    
     def get_robo_effect(self, file):
-        # Загружаем аудиофайл
         original_audio = AudioSegment.from_file(file)
 
-        offset = 20  # смещение в миллисекундах (0.02 секунды)
-        num_copies = 10  # количество копий
+        offset = 20
+        num_copies = 10
         combined_duration = len(original_audio) + 1000
 
-        combined = AudioSegment.silent(duration = combined_duration)  # создаем пустую дорожку
+        combined = AudioSegment.silent(duration = combined_duration)
 
         for i in range(num_copies):
-            copy = original_audio - (i * 4)  # затухание на 3дб на каждую копию
+            copy = original_audio - (i * 4)
             combined = combined.overlay(copy, position = i * offset)
 
-        # Сохраняем результат
         combined.export("sounds\\output_with_robo.mp3", format = "mp3")
 
     def speaker_say(self, text : str):

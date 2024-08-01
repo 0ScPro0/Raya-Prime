@@ -21,6 +21,8 @@ ChatGPT = ChatGPT_requests.ChatGPT(PERSONAL_ACCESS_TOKEN = "pat_bype5W9TbbG4umD6
 Recognizer = recognizer.Recognizer("voskModels\\vosk-model-small-ru-0.4")
 Recognizer.start_stream()
 
+Speaker = recognizer.Speaker()
+
 def wake_word_recognize():
     for text in Recognizer.recognize():
         ic(text)
@@ -40,7 +42,7 @@ def main_recognize():
                 ic(text)
                 answer = ChatGPT.send_request(text)
                 ic(f"GPT answer: {answer}")
-                Recognizer.speaker_say(str(answer))
+                Speaker.speaker_say(str(answer))
         else:
             ic(text)
             _commands.break_request()

@@ -4,7 +4,10 @@ import threading
 import os
 import json
 import Levenshtein
+import recognizer
 from icecream import ic
+
+Speaker = recognizer.Speaker()
 
 def check_command(command):
     distances = []
@@ -25,118 +28,33 @@ def do_command(command):
     commands = json.load(open("commands.json", "rb"))
     for i in commands["commands"].keys():
         if i == command:
-            try:
-                globals()[commands["commands"][i]]()
-            except Exception as e:
-                ic(f"Error: {e}")
+            if commands["commands"][i] != "None":
+                try:
+                    globals()[commands["commands"][i]]()
+                except:
+                    os.system(commands["commands"][i])
+                    command_react()
+            else:
+                Speaker.speaker_say("Данная функция сейчас не доступна, прошу прощения, сэр")
 
 def break_request():
     command_react()
 
-wake_word_reacts = ["sounds\\KVashimUslugamSir.mp3", "sounds\\ImRayaPrime.mp3"]
+wake_word_reacts = ["К вашим услугам, сэр", "Я - Райя Прайм", "Да, сэр?"]
 def wake_word_react():
-    count = random.randint(0, 1)
-    playsound(wake_word_reacts[count])
+    Speaker.speaker_say(random.choice(wake_word_reacts))
 
-command_reacts = ["sounds\\WillBeRealiseSir.mp3", "sounds\\IObeySir.mp3"]
+command_reacts = ["Будет исполнено, сэр", "Слушаюсь, сэр", "Одну минуту, сэр"]
 def command_react():
-    count = random.randint(0, 1)
-    playsound(command_reacts[count])
+    Speaker.speaker_say(random.choice(command_reacts))
 
-hello_reacts = ["sounds\\HelloSirVesglivo.mp3", "sounds\\HelloSir.mp3"]
+hello_reacts = ["Приветствую, сэр", "Здравствуйте, сэр"]
 def hello_react():
-    count = random.randint(0, 1)
-    playsound(hello_reacts[count])
+    Speaker.speaker_say(random.choice(hello_reacts))
 
-thank_reacts = ["sounds\\AlwaysHappyToHelp.mp3", "sounds\\VsegdaKVashimUslugamSir.mp3"]
+thank_reacts = ["Всегда рада помочь вам, сэр", "Всегда к вашим услугам, сэр"]
 def thank_react():
-    count = random.randint(0, 1)
-    playsound(thank_reacts[count])
+    Speaker.speaker_say(random.choice(thank_reacts))
 
 def unknown_command():
-    playsound("sounds\\IdontUnderstandYouRepeatPlease.mp3")
-
-def open_photoshop():
-    os.startfile("C:\\Abobe\\Adobe Photoshop CC 2017\\Photoshop.exe")
-    command_react()
-
-def close_photoshop():
-    os.system("taskkill /f /im Photoshop.exe")
-    command_react()
-
-def open_premierepro():
-    os.startfile("C:\\Abobe\\Adobe Premiere Pro CC 2018\\Adobe Premiere Pro.exe")
-    command_react()
-
-def close_premierepro():
-    os.system("taskkill /f /im Adobe Premiere Pro.exe")
-    command_react()
-
-def open_browser():
-    os.startfile("C:\\Users\\Богдан\\AppData\\Local\\Programs\\Opera GX\\opera.exe")
-    command_react()
-
-def close_browser():
-    os.system("taskkill /f /im opera.exe")
-    command_react()
-
-def open_youtube():
-    os.system("start https://www.youtube.com")
-    command_react()
-
-def open_minecraft():
-    os.startfile("C:\\XboxGames\\Minecraft Launcher\\Content\\Minecraft.exe") 
-    command_react()
-
-def open_telegram():
-    os.startfile("C:\\Users\Богдан\\AppData\Roaming\\Telegram Desktop\\Telegram.exe")
-    command_react()
-
-def close_telegram():
-    os.system("taskkill /f /im Telegram.exe")
-    command_react()
-
-def open_steam():
-    os.startfile("C:\\Program Files (x86)\\Steam\\steam.exe")
-    command_react()
-
-def close_steam():
-    ic("Not implemented")
-
-def open_soundpad():
-    os.startfile("C:\\MIT\\Python\\RayaPrime\\urls\\Soundpad.url")
-    command_react()
-
-def close_soundpad():
-    ic("Not implemented")
-
-def open_obs():
-    os.startfile("C:\\MIT\\Python\\RayaPrime\\urls\\OBS Studio.url")
-    command_react()
-
-def close_obs():
-    ic("Not implemented")
-
-def open_drg():
-    os.startfile("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Deep Rock Galactic\\FSD.exe")
-    command_react()
-
-def open_explorer_C():
-    os.system("start C:\\")
-    command_react()
-
-def open_explorer_D():
-    os.system("start D:\\")
-    command_react() 
-
-def open_explorer_WORKSPACE():
-    os.system("start C:\\MIT")
-    command_react()
-
-def open_explorer_REVAL():
-    os.system("start D:\\Реваль")
-    command_react()
-
-def open_task_manager():
-    os.startfile("C:\\Windows\\System32\\Taskmgr.exe")
-    command_react()
+    Speaker.speaker_say("Я не поняла ваш запрос, повторите его еще раз, пожалуйста!")
